@@ -1,0 +1,32 @@
+# Site settings — change the title/description to whatever you like.
+title: My Wiki
+description: A public wiki anyone can read.
+
+# Theme (sidebar, search, mobile layout). GitHub Pages builds this automatically.
+remote_theme: just-the-docs/just-the-docs@v0.10.1
+plugins:
+  - jekyll-remote-theme
+
+color_scheme: light
+search_enabled: true
+heading_anchors: true
+
+# Links shown in the top-right corner of every page.
+aux_links:
+  "+ New page":
+    - "https://github.com/kodylive/MyWiki/new/main/pages?filename=my-new-page.md&value=%2D%2D%2D%0Atitle%3A%20My%20New%20Page%0A%2D%2D%2D%0A%0AWrite%20your%20page%20here.%0A"
+  "View on GitHub":
+    - "https://github.com/kodylive/MyWiki"
+aux_links_new_tab: true
+
+# Adds an "Edit this page on GitHub" link at the bottom of every page.
+gh_edit_link: true
+gh_edit_link_text: "Edit this page on GitHub"
+gh_edit_repository: "https://github.com/kodylive/MyWiki"
+gh_edit_branch: "main"
+gh_edit_view_mode: "edit"
+
+footer_content: "Anyone can read this wiki. Only the owner can edit it."
+
+exclude:
+  - README.md
