@@ -1,0 +1,66 @@
+# When a Word document is uploaded to the word/ folder, turn it into a wiki page.
+name: Word to wiki page
+
+on:
+  push:
+    branches: [main]
+    paths: ["word/**"]
+  workflow_dispatch: # "Run workflow" button: re-converts every Word document
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: word-to-page
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install pandoc
+        run: sudo apt-get update -q && sudo apt-get install -y -q pandoc
+
+      - name: Find Word documents to convert
+        id: find
+        run: |
+          before="${{ github.event.before }}"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ -z "$before" ] || ! git cat-file -e "$before" 2>/dev/null; then
+            find word -iname '*.docx' ! -name '~$*' > changed.txt
+          else
+            git diff --name-only --diff-filter=AM "$before" "${{ github.sha }}" -- word | grep -i '\.docx$' | grep -v '/~\$' > changed.txt || true
+          fi
+          cat changed.txt
+
+      - name: Convert
+        run: |
+          if [ -s changed.txt ]; then
+            tr '\n' '\0' < changed.txt | xargs -0 python3 .github/scripts/convert_word.py
+          fi
+          rm changed.txt
+
+      - name: Save pages
+        id: save
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pages images
+          if git diff --cached --quiet; then
+            echo "Nothing new to save."
+          else
+            git commit -m "Convert Word documents to wiki pages"
+            git pull --rebase -q origin main
+            git push origin HEAD:main
+            echo "pushed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Pushes made by this workflow don't start a site rebuild on their own.
+      - name: Rebuild the site
+        if: steps.save.outputs.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds"

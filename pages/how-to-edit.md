@@ -18,6 +18,19 @@ You need to be signed in to GitHub as the owner of this wiki. Visitors can read 
 
 The page shows up on the wiki about a minute later. Refresh to see it.
 
+## Add a Word document
+
+1. Click **Upload Word doc** in the top-right corner of the wiki.
+2. Drag your `.docx` file in (you can drop several at once) and click **Commit changes**.
+3. Wait about two minutes. The document becomes a wiki page with the same name as the file, including its pictures and tables, and a link to download the original.
+
+Good to know:
+
+- Only `.docx` files work. If you have an old `.doc`, open it in Word and use **Save As → Word Document (.docx)** first.
+- Uploading a file with the same name again replaces its wiki page, so make changes in Word and re-upload rather than editing the converted page.
+- Deleting the Word file doesn't delete its page. Delete the page from the `pages` folder too.
+- To watch the conversion, open the **Actions** tab of the repository on GitHub.
+
 ## Edit a page
 
 Scroll to the bottom of any page and click **Edit this page on GitHub**. Make your changes and click **Commit changes**.

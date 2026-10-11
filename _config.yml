@@ -15,6 +15,8 @@ heading_anchors: true
 aux_links:
   "+ New page":
     - "https://github.com/kodylive/MyWiki/new/main/pages?filename=my-new-page.md&value=%2D%2D%2D%0Atitle%3A%20My%20New%20Page%0A%2D%2D%2D%0A%0AWrite%20your%20page%20here.%0A"
+  "Upload Word doc":
+    - "https://github.com/kodylive/MyWiki/upload/main/word"
   "View on GitHub":
     - "https://github.com/kodylive/MyWiki"
 aux_links_new_tab: true
